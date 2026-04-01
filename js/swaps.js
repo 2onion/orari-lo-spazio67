@@ -3,7 +3,7 @@
 //  Fully Supabase-backed. Any colleague can register a swap.
 // ─────────────────────────────────────────────────────────────
 import { sbGet, sbPost, sbDelete } from './supabase.js';
-import { week1, week2, rebuildFromSwaps } from './model.js';
+import { week1, week2, applySwapsToData } from './model.js';
 import { W1_DATES, W2_DATES, DLABELS, WEEK2_AVAILABLE } from './config.js';
 import { renderTable } from './schedule.js';
 import { showToast, setSyncDot } from './app.js';
@@ -29,7 +29,7 @@ export async function loadSwaps() {
     setSyncDot('loading');
     const data = await sbGet('swaps', '?order=created_at.desc');
     setSyncDot('ok');
-    rebuildFromSwaps(data || []);
+    applySwapsToData(data || []);
     renderTable();
     renderSwapsList(data || []);
   } catch (e) {

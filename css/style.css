@@ -423,3 +423,37 @@ tbody tr:hover td.today-col{background:rgba(232,197,71,.08);}
     width:260px;
   }
 }
+
+/* ── APRIL FOOLS MARIO PRANK ── */
+.mario-block {
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 8px;
+  background: #e8c547; /* Yellow block */
+  color: #000;
+  border: 2px solid #b89c36;
+  border-radius: 4px;
+  padding: 0 4px;
+  font-weight: bold;
+  font-family: 'DM Mono', monospace;
+  transition: transform 0.1s, filter 0.1s;
+  user-select: none;
+  box-shadow: 2px 2px 0 #8b7421;
+}
+.mario-block:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #8b7421;
+}
+.mario-sprite {
+  position: fixed;
+  font-size: 40px;
+  z-index: 9999;
+  pointer-events: none;
+  animation: floatUp 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.5); opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1.5) rotate(20deg); opacity: 0; }
+}

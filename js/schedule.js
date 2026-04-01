@@ -22,10 +22,18 @@ export function renderTable() {
 
   const todayIdx = getTodayColIdx();
 
-  // Column headers + today highlight
+// Column headers + today highlight
   document.querySelectorAll('#schedHead th.dh').forEach((th, i) => {
     if (i >= 7) return;
-    th.innerHTML = `${DLABELS[i]}<br><span style="font-size:9px;font-weight:400;color:#3a3a3e;font-family:'DM Mono'">${dates[i]}</span>`;
+
+    let headerHtml = `${DLABELS[i]}<br><span style="font-size:9px;font-weight:400;color:#3a3a3e;font-family:'DM Mono'">${dates[i]}</span>`;
+
+    // Inject the real image block next to April 1st
+    if (dates[i] === '01 Apr') {
+      headerHtml += ` <img src="images/blocco_mario.png" onclick="window.__marioPrank()" style="width: 14px; cursor: pointer; vertical-align: middle; margin-left: 4px; transition: transform 0.1s;" onmousedown="this.style.transform='translateY(2px)'" onmouseup="this.style.transform='translateY(0)'" title="???">`;
+    }
+
+    th.innerHTML = headerHtml;
     th.classList.toggle('today-col', i === todayIdx);
   });
 
@@ -105,8 +113,16 @@ export function renderOggi() {
   const DAYS   = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
   const MONTHS = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
 
-  document.getElementById('oggiDateLabel').textContent =
-    `${DAYS[now.getDay()]} ${now.getDate()} ${MONTHS[now.getMonth()]}`;
+  const isAprilFools = now.getMonth() === 3 && now.getDate() === 1; // Month 3 is April
+  let dateText = `${DAYS[now.getDay()]} ${now.getDate()} ${MONTHS[now.getMonth()]}`;
+
+  if (isAprilFools) {
+    // Inject the real image block in the Today panel
+    document.getElementById('oggiDateLabel').innerHTML =
+        `${dateText} <img src="images/blocco_mario.png" onclick="window.__marioPrank()" style="width: 18px; cursor: pointer; vertical-align: middle; margin-left: 6px; transition: transform 0.1s;" onmousedown="this.style.transform='translateY(2px)'" onmouseup="this.style.transform='translateY(0)'" title="???">`;
+  } else {
+    document.getElementById('oggiDateLabel').textContent = dateText;
+  }
 
   const panel   = document.getElementById('oggiPanel');
   const grid    = document.getElementById('oggiGrid');
@@ -134,3 +150,48 @@ export function renderOggi() {
     </div>`;
   }).join('');
 }
+
+// ── APRIL FOOLS MARIO PRANK LOGIC ─────────────────────────────
+window.__marioPrank = function() {
+  const icons = ['🪙', '🍄', '🌟', '🐢', '🦖', '🟩', '☁️'];
+
+  // Public classic Nintendo sound links
+  const sounds = [
+    'audio/moneta.wav',
+    'audio/salto.wav',
+    'audio/1_up.wav',
+    'audio/yoshi_1.mp3',
+      'audio/its-me-mario.mp3',
+      'audio/super-mario-64-yahoo-sound.mp3',
+      'audio/super-mario-bros-nes-music-star-theme-cut-mp3.mp3',
+      'audio/yoshi-tongue.mp3',
+      'audio/super-mario-death-sound-sound-effect.mp3',
+      'audio/yeahoo.mp3',
+      'audio/sm64_mario_lets_go.mp3',
+      'audio/sans-titre1.mp3'
+  ];
+
+  // Spawn 40 icons & sounds over the span of 2 seconds for a chaotic overlapping effect
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => {
+      // 1. Play random overlapping sound
+      const audio = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
+      audio.volume = 0.6; // Keep it loud but without blowing out the speakers completely
+      audio.play().catch(e => console.log('Audio blocked', e));
+
+      // 2. Create floating icon
+      const el = document.createElement('div');
+      el.className = 'mario-sprite';
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+
+      // Random starting positions near the bottom/center
+      el.style.left = (Math.random() * 90 + 5) + 'vw';
+      el.style.top = (Math.random() * 50 + 50) + 'vh';
+
+      document.body.appendChild(el);
+
+      // Clean up the DOM after animation finishes
+      setTimeout(() => el.remove(), 2000);
+    }, i * 50); // Stagger them by 50ms each so it creates a massive noise barrage
+  }
+};
