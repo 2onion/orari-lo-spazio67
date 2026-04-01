@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE SPACE CINEMA — Turni 67</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">THE SPACE 67 CINEMA <small>— Turni Settimanali</small></div>
+  <div class="header-right">
+    <div class="sync-dot" id="syncDot" title="Stato connessione"></div>
+    <div class="last-upd">Aggiornato: <span id="lastMod">—</span></div>
+  </div>
+</header>
+
+<div class="nav-tabs">
+  <div class="ntab active" onclick="switchNav('schedule')">📅 Turni</div>
+  <div class="ntab"        onclick="switchNav('search')">🔍 Cerca</div>
+  <div class="ntab"        onclick="switchNav('swaps')">🔄 Cambi</div>
+  <div class="ntab"        onclick="switchNav('juve')">⚽🎧 Juve</div>
+</div>
+
+<!-- ═══════ SCHEDULE ═══════ -->
+<div id="nav-schedule">
+  <div class="week-switcher">
+    <div class="wsw active" id="wsw1" onclick="switchWeek(1)">📅 Sett. 1</div>
+    <div class="wsw"        id="wsw2" onclick="switchWeek(2)">📅 Sett. 2</div>
+  </div>
+
+  <div class="unavail-banner" id="unavailBanner">
+    <div class="uico">⏳</div>
+    <h3>Turni Non Ancora Disponibili</h3>
+    <p>AO non so pubblicati i turni per questa settimana. Vi dovete muovere. Vi dovete spaventareee</p>
+  </div>
+
+  <div class="oggi-panel" id="oggiPanel">
+    <div class="oggi-header" onclick="toggleOggi()">
+      <div class="oggi-header-left">
+        <span style="font-size:18px;">✋🗿🤚</span>
+        <div>
+          <div class="oggi-title">Chi lavora oggi</div>
+          <div class="oggi-date" id="oggiDateLabel">—</div>
+        </div>
+      </div>
+      <span class="oggi-toggle" id="oggiToggle">▼</span>
+    </div>
+    <div class="oggi-body" id="oggiBody">
+      <div class="oggi-count" id="oggiCount"></div>
+      <div class="oggi-grid" id="oggiGrid"></div>
+    </div>
+  </div>
+
+  <main id="schedMain">
+    <div class="legend">
+      <div class="li"><div class="ld ld-ap"></div>Apertura</div>
+      <div class="li"><div class="ld ld-ch"></div>Chiusura</div>
+      <div class="li"><div class="ld ld-in"></div>Intermedio</div>
+      <div class="li"><div class="ld ld-off"></div>OFF</div>
+      <div class="li"><div class="ld ld-sw"></div>Cambiato</div>
+      <span class="sep">|</span>
+      <span style="font-size:11px;color:var(--muted)">CONC = Concession · LAV = Lavazza · FL = Floor</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead id="schedHead">
+          <tr>
+            <th>Dipendente</th>
+            <th class="dh">VEN</th><th class="dh">SAB</th><th class="dh">DOM</th>
+            <th class="dh">LUN</th><th class="dh">MAR</th><th class="dh">MER</th><th class="dh">GIO</th>
+            <th class="dh" style="min-width:60px">Tot.</th>
+            <th class="dh" style="min-width:55px">Cntr.</th>
+            <th class="dh" style="min-width:55px">Diff.</th>
+          </tr>
+        </thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════ SEARCH ═══════ -->
+<div id="nav-search" style="display:none">
+  <main>
+    <div class="sbwrap">
+      <span class="sico">🔎</span>
+      <input type="text" id="searchInput" placeholder="Cerca per nome… es. Sara, Denis, Marco" oninput="doSearch(this.value)">
+    </div>
+    <div class="no-res" id="noRes">Nessun dipendente trovato.</div>
+    <div id="personResults"></div>
+  </main>
+</div>
+
+<!-- ═══════ SWAPS ═══════ -->
+<div id="nav-swaps" style="display:none">
+  <main>
+    <div class="swap-section">
+      <h3>🔄 Cambio Turno Reciproco</h3>
+      <p class="sh-sub">Seleziona chi cede il turno e quale, poi chi lo prende e quale turno dà in cambio. Entrambe le tabelle verranno aggiornate per tutti in tempo reale.</p>
+
+      <div class="steps">
+        <div class="step active" id="step1"><div class="step-n">1</div><span class="step-l">Chi cede</span></div>
+        <span class="step-sep">›</span>
+        <div class="step" id="step2"><div class="step-n">2</div><span class="step-l">Turno A</span></div>
+        <span class="step-sep">›</span>
+        <div class="step" id="step3"><div class="step-n">3</div><span class="step-l">Chi prende</span></div>
+        <span class="step-sep">›</span>
+        <div class="step" id="step4"><div class="step-n">4</div><span class="step-l">Turno B</span></div>
+        <span class="step-sep">›</span>
+        <div class="step" id="step5"><div class="step-n">5</div><span class="step-l">Conferma</span></div>
+      </div>
+
+      <div class="swap-grid">
+        <div class="fg">
+          <label>Persona A — cede il turno</label>
+          <select id="swapFrom" onchange="onFromChange()">
+            <option value="">— Seleziona —</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Settimana</label>
+          <select id="swapWeek" onchange="onWeekChange()">
+            <option value="1">Sett. 1</option>
+            <option value="2">Sett. 2</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pickers-row" id="pickersRow" style="display:none">
+        <div class="shift-picker">
+          <div class="sp-label" id="pickerLabelA">Turno ceduto da A</div>
+          <div class="day-shifts" id="dayShiftsA"></div>
+        </div>
+        <div class="shift-picker" id="pickerB" style="opacity:.4;pointer-events:none">
+          <div class="sp-label" id="pickerLabelB">Turno dato in cambio da B</div>
+          <div class="day-shifts" id="dayShiftsB"></div>
+        </div>
+      </div>
+
+      <div id="toBSection" style="display:none;margin-top:14px;">
+        <div class="swap-grid">
+          <div class="fg">
+            <label>Persona B — prende il turno</label>
+            <select id="swapTo">
+              <option value="">— Seleziona —</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Note (opzionale)</label>
+            <textarea id="swapNote" placeholder="es. cambio accordato, disponibile"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="hour-warn" id="hourWarn">⚠️ Le ore non coincidono. Il cambio è comunque possibile.</div>
+
+      <div class="swap-preview" id="swapPreview">
+        <div class="pv-title">📋 Riepilogo cambio</div>
+        <div class="pv-body" id="previewBody"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="add-btn" id="confirmSwapBtn" onclick="confirmSwap()" disabled>✓ Conferma Cambio</button>
+        <button class="sec-btn" onclick="resetSwapForm()">Annulla</button>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div style="font-family:'Bebas Neue';font-size:17px;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px;">📋 Cambi Registrati</div>
+    <div id="swapsLoading" class="loading-row" style="display:none">Caricamento cambi...</div>
+    <div class="swaps-list" id="swapsList"></div>
+  </main>
+</div>
+
+<!-- ═══════ JUVE ═══════ -->
+<div id="nav-juve" style="display:none">
+  <div class="juve-page">
+    <div class="juve-hero">
+      <div class="juve-stripes"></div>
+      <span class="juve-badge">⚽🎧</span>
+      <div class="juve-name">JUVE</div>
+      <div class="juve-subtitle">Il cliente leggendario di The Space Cinema</div>
+    </div>
+
+    <div class="counters-grid">
+      <div class="counter-card juve-card">
+        <div class="counter-glow"></div>
+        <span class="counter-icon">👑</span>
+        <div class="counter-label">Avvistamento leggenda</div>
+        <div class="counter-question">Oggi è passato Juve?<br>Se sì, aumenta il contatore!</div>
+        <div class="counter-num" id="juveCount">—</div>
+        <div class="counter-sublabel">visite totali</div>
+        <button class="counter-btn" onclick="bump('juve')">✦ È PASSATO JUVE ✦</button>
+        <br><button class="counter-undo" onclick="undo('juve')">↩ annulla ultima</button>
+      </div>
+      <div class="counter-card cucciolone-card">
+        <div class="counter-glow"></div>
+        <span class="counter-icon">🍦</span>
+        <div class="counter-label">Acquisto premium</div>
+        <div class="counter-question">Ha comprato<br>un Cucciolone?</div>
+        <div class="counter-num" id="cuccioloneCount">—</div>
+        <div class="counter-sublabel">cuccioloni acquistati</div>
+        <button class="counter-btn" onclick="bump('cucciolone')">🍦 CUCCIOLONE +1</button>
+        <br><button class="counter-undo" onclick="undo('cucciolone')">↩ annulla ultima</button>
+      </div>
+    </div>
+
+    <div class="stats-grid" style="margin-bottom:16px;">
+      <div class="stat-card"><div class="sc-icon">📅</div><div class="sc-val" id="statThisMonth">—</div><div class="sc-label">Questo mese</div></div>
+      <div class="stat-card"><div class="sc-icon">📊</div><div class="sc-val" id="statAvgMonth">—</div><div class="sc-label">Media mensile</div></div>
+      <div class="stat-card" id="streakCard">
+        <div class="sc-icon" id="streakIcon">👀</div>
+        <div class="sc-val" id="statStreak" style="font-family:'Bebas Neue';font-size:32px;color:var(--red);">—</div>
+        <div class="sc-label" id="streakLabel">Giorni senza Juve</div>
+      </div>
+    </div>
+
+    <div class="dow-section">
+      <h4>📈 Giorni più frequentati</h4>
+      <div class="dow-bars" id="dowBars"></div>
+    </div>
+
+    <div class="monthly-section">
+      <h4>🗓 Visite per mese</h4>
+      <div id="monthlyBars"><div style="color:var(--muted);font-size:12px;font-style:italic;">Nessun dato ancora.</div></div>
+    </div>
+
+    <div class="juve-log">
+      <h4>📋 Registro avvistamenti</h4>
+      <div class="log-list" id="juveLog">
+        <div class="log-empty">Caricamento...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ES Modules — order matters -->
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>
