@@ -18,7 +18,7 @@ export const BASE_WEEK1 = [
             {t:'apertura', time:'13:15–19:15', role:'CONC',    h:6},
             {t:'apertura', time:'13:15–19:15', role:'CONC',    h:6},
         ]},
-    {name:'Soare Oana',         role:'Add. Multiplex',     contract:30, days:[
+    {name:'Soare Oana',         role:'Add. Maranza',     contract:30, days:[
             {t:'chiusura',   time:'18:45–00:45', role:'LAV 7',   h:6},
             {t:'intermedio',   time:'18:00–00:00', role:'CONC 3',  h:6},
             {t:'apertura',   time:'10:15–16:15', role:'CONC 5',  h:6},
