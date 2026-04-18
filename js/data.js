@@ -27,7 +27,7 @@ export const BASE_WEEK1 = [
             {t:'chiusura',   time:'17:45–23:45', role:'LAV',     h:6},
             {t:'intermedio', time:'17:00–23:00', role:'FLOOR',   h:6},
         ]},
-    {name:'Gribaudi Jodi',      role:'Add. Multiplex V',   contract:16, days:[
+    {name:'Gribaudi Jodi',      role:'Add. Rondo da Sosa',   contract:16, days:[
             {t:'off',     time:'', role:'', h:0},
             {t:'assente', time:'', role:'', h:0},
             {t:'assente', time:'', role:'', h:0},
