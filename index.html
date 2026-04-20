@@ -239,6 +239,77 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- ═══════════════════════════════════════════════════════════
+     TRIVIA v3 — paste both blocks in index.html
+     right BEFORE: <script type="module" src="js/app.js"></script>
+     ════════════════════════════════════════════════════════════ -->
+
+
+<!-- ── QUIZ OVERLAY ─────────────────────────────────────────── -->
+<div class="t-overlay" id="triviaOverlay" style="display:none">
+  <div class="t-card" id="triviaCard">
+
+    <!-- LEFT: full-portrait image panel -->
+    <div class="t-img-panel t-img-panel--normal" id="triviaImgPanel">
+      <img src="images/Rim_lo_spazio.jpeg"
+           class="t-img t-img--normal"
+           id="triviaImg"
+           alt="Rim — Quiz Master">
+      <div class="t-img-label" id="triviaImgLabel">⚡ QUIZ OBBLIGATORIO</div>
+    </div>
+
+    <!-- RIGHT: quiz panel -->
+    <div class="t-quiz-panel">
+
+      <!-- Question -->
+      <div class="t-quiz-body">
+        <div class="t-quiz-meta">
+          <div class="t-quiz-badge">🎬 Quiz Obbligatorio</div>
+          <div class="t-quiz-hint">4 opzioni · 1 corretta</div>
+        </div>
+        <p class="t-question" id="triviaQuestion"></p>
+      </div>
+
+      <!-- Options -->
+      <div class="t-options" id="triviaOptions"></div>
+
+      <!-- Feedback -->
+      <div class="t-result" id="triviaResult" style="display:none"></div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ── BLOCK SCREEN ──────────────────────────────────────────── -->
+<div class="t-block-overlay" id="triviaBlockOverlay" style="display:none">
+  <div class="t-block-card">
+
+    <!-- LEFT: angry image -->
+    <div class="t-block-img-panel">
+      <span class="t-block-emoji">😤</span>
+      <img src="images/Rim_ferro.jpeg"
+           class="t-block-img"
+           alt="Rim arrabbiata">
+    </div>
+
+    <!-- RIGHT: countdown -->
+    <div class="t-block-body">
+      <div class="t-block-title">RISPOSTA SBAGLIATA!</div>
+      <p class="t-block-msg">
+        Vai a studiare prima di guardare i turni.<br>
+        Accesso sospeso per ordine di Rim. 😤
+      </p>
+      <div class="t-countdown t-countdown--normal" id="triviaBlockCountdown">60</div>
+      <div class="t-countdown-label">secondi di punizione</div>
+      <div class="t-block-progress">
+        <div class="t-block-bar" id="triviaBlockBar"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ES Modules — order matters -->
 <script type="module" src="js/app.js"></script>
 

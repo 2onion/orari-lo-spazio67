@@ -7,6 +7,7 @@ import { doSearch } from './search.js';
 import { initSwaps, onFromChange, onWeekChange, onToChange, confirmSwap, resetSwapForm, deleteSwap } from './swaps.js';
 import { loadJuve, bump, undo } from './juve.js';
 import { loadShifts, closeEditor, editorTypeChange, saveEditor } from './shifts.js';
+import { initTrivia } from './trivia.js';           // ← NEW
 import { LAST_MODIFIED, W1_LABEL, W2_LABEL } from './config.js';
 
 // ── Sync dot ─────────────────────────────────────────────────
@@ -67,12 +68,11 @@ window.__saveEditor     = saveEditor;
 // ── Init ──────────────────────────────────────────────────────
 document.getElementById('lastMod').textContent = LAST_MODIFIED;
 
-// Update week switcher labels from config
 document.getElementById('wsw1').innerHTML = `📅 Sett. 1 &nbsp;${W1_LABEL}`;
 document.getElementById('wsw2').innerHTML = `📅 Sett. 2 &nbsp;${W2_LABEL}`;
 
-// Load shifts from Supabase, then render
 (async () => {
   await loadShifts();
   renderTable();
+  initTrivia();   // ← NEW: starts the random quiz timer after shifts load
 })();
