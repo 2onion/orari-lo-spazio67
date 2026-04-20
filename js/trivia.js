@@ -453,7 +453,7 @@ export function initTrivia() {
 
   if (TriviaModel.isBlocked()) { showBlockScreen(); return; }
   if (TriviaModel.shouldTrigger()) {
-    const delay = 1_000 + Math.random() * 30_000; // 45–135 s
+    const delay = 1_000 + Math.random() * 10_000; // 45–135 s
     setTimeout(_triggerTrivia, delay);
   }
 }
