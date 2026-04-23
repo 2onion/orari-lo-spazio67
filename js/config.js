@@ -11,8 +11,8 @@ export const W1_DATES = ['17 Apr','18 Apr','19 Apr','20 Apr','21 Apr','22 Apr','
 export const W2_DATES = ['24 Apr','25 Apr','26 Apr','27 Apr','28 Apr','29 Apr','30 Apr'];
 export const W1_LABEL = '17 Apr – 13 Apr';
 export const W2_LABEL = '24 Apr – 30 Apr';
-export const WEEK2_AVAILABLE = false;
-export const LAST_MODIFIED   = '18/04/2026 h:14:11';
+export const WEEK2_AVAILABLE = true;
+export const LAST_MODIFIED   = '23/04/2026 h:17:07';
 // ─────────────────────────────────────────────────────────────
 
 export const DLABELS = ['VEN','SAB','DOM','LUN','MAR','MER','GIO'];
