@@ -58,13 +58,13 @@ const TRIVIA_QUESTIONS = [
   {
     q: "Su InMoment un cliente ci dà un 10 e loda il tuo sorriso. Questo fa schizzare in alto il nostro...",
     opts: ["Conto in Banca, 2 milioni cash","ehmm...","Livello di stress","NPS (Net Promoter Score) e CSI"],
-    correct: 2,
+    correct: 3,
     wrongMsg: "Aumentano NPS (Passaparola) e CSI (Soddisfazione). InMoment calcola se i clienti ci amano, molestarli non funziona",
   },
   {
     q: "Hai aperto un pacco di wurstel. Quanto tempo hai prima che scadano e si trasformino in Fassino?",
     opts: ["Per sempre, basta conservarli ermeticamente nell'ano","5 giorni","3 giorni","24 ore"],
-    correct: 2,
+    correct: 3,
     wrongMsg: "Attenzione all'HACCP! La Shelf Life (scadenza) dei wurstel aperti è di sole 24 ore. I popcorn invece durano 5 giorni, i nachos 3.",
   },
 ];
