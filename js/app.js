@@ -7,7 +7,8 @@ import { doSearch } from './search.js';
 import { initSwaps, onFromChange, onWeekChange, onToChange, confirmSwap, resetSwapForm, deleteSwap } from './swaps.js';
 import { loadJuve, bump, undo } from './juve.js';
 import { loadShifts, closeEditor, editorTypeChange, saveEditor } from './shifts.js';
-import { initTrivia } from './trivia.js';           // ← NEW
+import { initTrivia } from './trivia.js';
+import { initQuizAdmin } from './trivia_admin.js';
 import { LAST_MODIFIED, W1_LABEL, W2_LABEL } from './config.js';
 
 // ── Sync dot ─────────────────────────────────────────────────
@@ -27,7 +28,7 @@ export function showToast(msg) {
 }
 
 // ── Nav ───────────────────────────────────────────────────────
-const NAV_NAMES = ['schedule', 'search', 'swaps', 'juve'];
+const NAV_NAMES = ['schedule', 'search', 'swaps', 'juve', 'quiz'];
 
 export function switchNav(name) {
   NAV_NAMES.forEach(n => {
@@ -38,6 +39,7 @@ export function switchNav(name) {
   });
   if (name === 'swaps') initSwaps();
   if (name === 'juve')  loadJuve();
+  if (name === 'quiz')  initQuizAdmin();
 }
 
 // ── Week switcher ─────────────────────────────────────────────

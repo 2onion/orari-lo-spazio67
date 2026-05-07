@@ -4,7 +4,9 @@
 //  LAYOUT  : split-panel — immagine intera a sinistra, quiz a destra.
 //  AUDIO   : file custom in audio/trivia/ con fallback Web Audio API.
 //  IMMAGINI: 3 stati (normale / corretta / sbagliata) configurabili.
+//  DOMANDE : mix tra hardcoded + domande custom da Supabase.
 // ─────────────────────────────────────────────────────────────
+import { getCustomQuestions, loadCustomQuestions } from './trivia_admin.js';
 
 
 // ═══════════════════════════════════════════════════════════════
@@ -114,7 +116,20 @@ const TriviaModel = {
     return Date.now() - (+(localStorage.getItem(this.LAST_SHOWN_KEY)||0)) > this.COOLDOWN_MS;
   },
   markShown()    { localStorage.setItem(this.LAST_SHOWN_KEY, String(Date.now())); },
-  pickQuestion() { return TRIVIA_QUESTIONS[Math.floor(Math.random() * TRIVIA_QUESTIONS.length)]; },
+  pickQuestion() {
+    // Merge hardcoded questions with enabled custom questions from Supabase.
+    // Convert Supabase row shape → internal { q, opts, correct, wrongMsg }.
+    const custom = getCustomQuestions()
+      .filter(q => q.enabled)
+      .map(q => ({
+        q:        q.question,
+        opts:     [q.opt_a, q.opt_b, q.opt_c, q.opt_d],
+        correct:  q.correct_index,
+        wrongMsg: q.wrong_msg,
+      }));
+    const pool = [...TRIVIA_QUESTIONS, ...custom];
+    return pool[Math.floor(Math.random() * pool.length)];
+  },
 };
 
 
@@ -447,13 +462,16 @@ function showBlockScreen() {
 //  CONTROLLER
 // ═══════════════════════════════════════════════════════════════
 
-export function initTrivia() {
+export async function initTrivia() {
   // Pre-warm audio context on first user gesture
   document.addEventListener('click', () => { try { _ac(); } catch(_) {} }, { once: true });
 
+  // Load custom questions from Supabase (non-blocking — quiz fires later anyway)
+  loadCustomQuestions().catch(() => {}); // errors are handled inside loadCustomQuestions
+
   if (TriviaModel.isBlocked()) { showBlockScreen(); return; }
   if (TriviaModel.shouldTrigger()) {
-    const delay = 1_000 + Math.random() * 10_000; // 45–135 s
+    const delay = 45_000 + Math.random() * 90_000; // 45–135 s
     setTimeout(_triggerTrivia, delay);
   }
 }

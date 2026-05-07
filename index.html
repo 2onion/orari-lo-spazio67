@@ -22,6 +22,7 @@
   <div class="ntab"        onclick="switchNav('search')">🔍 Cerca</div>
   <div class="ntab"        onclick="switchNav('swaps')">🔄 Cambi</div>
   <div class="ntab"        onclick="switchNav('juve')">⚽🎧 Juve</div>
+  <div class="ntab" onclick="switchNav('quiz')">🎯 Quiz</div>
 </div>
 
 <!-- ═══════ SCHEDULE ═══════ -->
@@ -236,6 +237,16 @@
     </div>
   </div>
 </div>
+
+<div id="nav-quiz" style="display:none">
+  <div class="qa-page" id="quizAdminContent">
+    <!-- rendered dynamically by trivia_admin.js -->
+    <div class="qa-loading" style="padding:40px;text-align:center">
+      Caricamento sezione quiz…
+    </div>
+  </div>
+</div>
+
 
 <div class="toast" id="toast"></div>
 

@@ -1049,3 +1049,403 @@ tbody tr:hover td.today-col{background:rgba(232,197,71,.08);}
   .t-countdown        { font-size: 68px; }
   .t-block-title      { font-size: 26px; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   QUIZ ADMIN — append to the bottom of css/style.css
+   (after the trivia overlay styles)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Page wrapper ─────────────────────────────────────────────── */
+.qa-page {
+  padding: 22px 26px;
+  max-width: 860px;
+}
+
+/* ── Section block ────────────────────────────────────────────── */
+.qa-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.qa-section-title {
+  font-family: 'Bebas Neue';
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qa-section-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* ── Count badge next to section title ──────────────────────── */
+.qa-count-badge {
+  font-family: 'DM Mono';
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .5px;
+  background: rgba(232,197,71,.08);
+  color: var(--accent);
+  border: 1px solid rgba(232,197,71,.2);
+  border-radius: 6px;
+  padding: 2px 9px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FORM
+   ══════════════════════════════════════════════════════════════ */
+.qa-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.qa-field { display: flex; flex-direction: column; gap: 6px; }
+.qa-field--full { grid-column: 1 / -1; }
+
+.qa-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qa-input,
+.qa-textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: 'DM Sans';
+  font-size: 13px;
+  outline: none;
+  transition: border-color .18s, box-shadow .18s;
+  width: 100%;
+}
+.qa-input:focus,
+.qa-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(232,197,71,.1);
+}
+.qa-input::placeholder,
+.qa-textarea::placeholder { color: #3a3a3e; }
+
+.qa-textarea { resize: vertical; min-height: 72px; }
+
+.qa-char {
+  font-family: 'DM Mono';
+  font-size: 10px;
+  color: var(--muted);
+  text-align: right;
+  margin-top: -2px;
+}
+
+/* ── Options grid (2×2) ───────────────────────────────────────── */
+.qa-opts-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.qa-opt-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-family: 'DM Mono';
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.qa-opt-dot--a { background: rgba(82,196,120,.15);  color: var(--green); }
+.qa-opt-dot--b { background: rgba(82,153,224,.15);  color: var(--blue);  }
+.qa-opt-dot--c { background: rgba(232,197,71,.15);  color: var(--accent);}
+.qa-opt-dot--d { background: rgba(165,106,224,.15); color: var(--purple);}
+
+/* ── Radio group (correct answer) ────────────────────────────── */
+.qa-radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.qa-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  font-size: 12px;
+  color: var(--muted);
+}
+.qa-radio-label:hover {
+  border-color: rgba(232,197,71,.4);
+  background: rgba(232,197,71,.04);
+}
+.qa-radio-label input[type=radio] { display: none; }
+.qa-radio-label:has(input:checked) {
+  border-color: var(--green);
+  background: rgba(82,196,120,.08);
+  color: var(--green);
+}
+.qa-radio-dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-family: 'DM Mono';
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: background .15s, border-color .15s, color .15s;
+}
+.qa-radio-label:has(input:checked) .qa-radio-dot {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+}
+.qa-radio-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Error message ────────────────────────────────────────────── */
+.qa-error {
+  background: rgba(224,82,82,.1);
+  border: 1px solid rgba(224,82,82,.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+.qa-btn-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.qa-submit-btn {
+  background: var(--accent);
+  border: none;
+  color: #000;
+  font-family: 'DM Sans';
+  font-size: 13px;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity .18s, transform .1s;
+}
+.qa-submit-btn:hover   { opacity: .85; }
+.qa-submit-btn:active  { transform: scale(.97); }
+.qa-submit-btn:disabled{ opacity: .4; cursor: not-allowed; }
+
+.qa-reset-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-family: 'DM Sans';
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.qa-reset-btn:hover { border-color: var(--muted); color: var(--text); }
+
+/* ══════════════════════════════════════════════════════════════
+   QUESTIONS LIST
+   ══════════════════════════════════════════════════════════════ */
+.qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.qa-loading,
+.qa-empty {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+  padding: 12px 0;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ── Question card ────────────────────────────────────────────── */
+.qa-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  transition: border-color .2s, opacity .2s;
+  animation: qaCardIn .25s ease;
+}
+@keyframes qaCardIn {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.qa-card:hover { border-color: rgba(232,197,71,.25); }
+.qa-card--disabled { opacity: .45; }
+
+/* Card header */
+.qa-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.qa-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qa-card-author {
+  font-size: 11px;
+  color: var(--accent);
+  font-family: 'DM Mono';
+}
+.qa-card-date {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'DM Mono';
+}
+.qa-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Toggle button */
+.qa-toggle-btn {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: 'DM Sans';
+  font-weight: 600;
+  transition: all .15s;
+}
+.qa-toggle-btn--on {
+  background: rgba(82,196,120,.1);
+  border-color: rgba(82,196,120,.3);
+  color: var(--green);
+}
+.qa-toggle-btn--on:hover {
+  background: rgba(82,196,120,.18);
+  border-color: rgba(82,196,120,.55);
+}
+.qa-toggle-btn--off {
+  background: rgba(224,82,82,.08);
+  border-color: rgba(224,82,82,.25);
+  color: var(--red);
+}
+.qa-toggle-btn--off:hover {
+  background: rgba(224,82,82,.16);
+  border-color: rgba(224,82,82,.45);
+}
+
+/* Delete button */
+.qa-delete-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 15px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  transition: color .15s, background .15s;
+  line-height: 1;
+}
+.qa-delete-btn:hover { color: var(--red); background: rgba(224,82,82,.08); }
+
+/* Question text */
+.qa-card-question {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+/* Options */
+.qa-card-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.qa-card-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.qa-card-opt--correct {
+  background: rgba(82,196,120,.1);
+  border-color: rgba(82,196,120,.4);
+  color: var(--green);
+  font-weight: 600;
+}
+.qa-card-opt-letter {
+  font-family: 'DM Mono';
+  font-size: 10px;
+  font-weight: 700;
+  opacity: .7;
+}
+.qa-card-correct-mark {
+  font-size: 10px;
+  color: var(--green);
+}
+
+/* Wrong msg */
+.qa-card-wrong-msg {
+  font-size: 11.5px;
+  color: var(--muted);
+  background: rgba(224,82,82,.06);
+  border: 1px solid rgba(224,82,82,.12);
+  border-radius: 7px;
+  padding: 7px 11px;
+  line-height: 1.55;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .qa-page        { padding: 18px 14px; }
+  .qa-section     { padding: 18px 16px; }
+  .qa-form        { grid-template-columns: 1fr; }
+  .qa-opts-grid   { grid-template-columns: 1fr; }
+  .qa-radio-group { grid-template-columns: 1fr; }
+  .qa-field--full { grid-column: 1; }
+}
