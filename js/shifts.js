@@ -14,7 +14,7 @@ import { showToast, setSyncDot } from './app.js';
 export async function loadShifts() {
   try {
     setSyncDot('loading');
-    const rows = await sbGet('shifts', '?order=week_n,name');
+    const rows = await sbGet('shifts', '?order=week_n');
     setSyncDot('ok');
 
     if (!rows || rows.length === 0) {
