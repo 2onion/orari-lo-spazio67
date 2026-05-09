@@ -88,7 +88,7 @@ export const BASE_WEEK1 = [
             {t:'off',        time:'',            role:'',          h:0},
             {t:'intermedio',        time:'17:00–21:00', role:'LAV',          h:4},
             {t:'off', time:'', role:'',  h:0},
-            {t:'Corso',        time:'',            role:'CORSO',      h:0},
+            {t:'CORSO',        time:'',            role:'CORSO',      h:0},
         ]},
     {name:'Tonetti Simone',     role:'Add. Multiplex',     contract:20, days:[
             {t:'chiusura',   time:'21:15–01:15', role:'CONC 5', h:4},

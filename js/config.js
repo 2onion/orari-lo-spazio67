@@ -12,7 +12,7 @@ export const W2_DATES = ['15 Mag','16 Mag','17 Mag','18 Mag','19 Mag','20 Mag','
 export const W1_LABEL = '08 Mag – 14 Mag';
 export const W2_LABEL = '15 Mag – 21 Mag';
 export const WEEK2_AVAILABLE = false;
-export const LAST_MODIFIED   = '9/05/2026 h:15:00';
+export const LAST_MODIFIED   = '9/05/2026 h:15:05';
 // ─────────────────────────────────────────────────────────────
 
 export const DLABELS = ['VEN','SAB','DOM','LUN','MAR','MER','GIO'];
