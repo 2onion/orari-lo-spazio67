@@ -38,15 +38,18 @@ export function applySwap(s) {
   const wd      = s.week_n === 1 ? week1 : week2;
   const fromEmp = wd.find(e => e.name === s.from_name);
   const toEmp   = wd.find(e => e.name === s.to_name);
-  if (fromEmp) fromEmp.days[s.day_idx_a] = { ...s.shift_a, swapped: true, swappedWith: s.to_name };
-  if (toEmp)   toEmp.days[s.day_idx_b]   = { ...s.shift_b, swapped: true, swappedWith: s.from_name };
+  // shift_a is what person A gives away → goes to person B's slot
+  // shift_b is what person B gives away → goes to person A's slot
+  if (fromEmp) fromEmp.days[s.day_idx_a] = { ...s.shift_b, swapped: true, swappedWith: s.to_name };
+  if (toEmp)   toEmp.days[s.day_idx_b]   = { ...s.shift_a, swapped: true, swappedWith: s.from_name };
 }
 
 export function getTodayColIdx() {
   const dates  = getCurrentDates();
   const now    = new Date();
   const MONTHS = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-  const str    = `${String(now.getDate()).padStart(2,'0')} ${MONTHS[now.getMonth()]}`;
+  // No zero-padding — must match the format used in config.js (e.g. '7 Mag', not '07 Mag')
+  const str    = `${now.getDate()} ${MONTHS[now.getMonth()]}`;
   return dates.indexOf(str);
 }
 
