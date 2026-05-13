@@ -15,16 +15,32 @@ const sw = {
   dayIdxB: -1, shiftB: null,
 };
 
-// ── Public: called when tab is opened ────────────────────────
+// ── Fetch swaps from Supabase and apply to model ──────────────
+// Called on app startup — only touches the data model, not the Cambi tab UI
+export async function fetchAndApplySwaps() {
+  try {
+    setSyncDot('loading');
+    const data = await sbGet('swaps', '?order=created_at.desc');
+    setSyncDot('ok');
+    applySwapsToData(data || []);
+    renderTable();
+  } catch (e) {
+    setSyncDot('err');
+  }
+}
+
+// ── Public: called when Cambi tab is opened ───────────────────
 export async function initSwaps() {
   populateFromSelect();
   await loadSwaps();
 }
 
-// ── Supabase: load all swaps, rebuild table ───────────────────
+// ── Load swaps + refresh the full Cambi tab UI ───────────────
 export async function loadSwaps() {
-  document.getElementById('swapsLoading').style.display = 'block';
-  document.getElementById('swapsList').innerHTML = '';
+  const loadingEl = document.getElementById('swapsLoading');
+  const listEl    = document.getElementById('swapsList');
+  if (loadingEl) loadingEl.style.display = 'block';
+  if (listEl)    listEl.innerHTML = '';
   try {
     setSyncDot('loading');
     const data = await sbGet('swaps', '?order=created_at.desc');
@@ -34,10 +50,10 @@ export async function loadSwaps() {
     renderSwapsList(data || []);
   } catch (e) {
     setSyncDot('err');
-    document.getElementById('swapsList').innerHTML =
+    if (listEl) listEl.innerHTML =
       '<div class="empty-sw">❌ Errore di connessione. Ricarica la pagina.</div>';
   } finally {
-    document.getElementById('swapsLoading').style.display = 'none';
+    if (loadingEl) loadingEl.style.display = 'none';
   }
 }
 
@@ -242,6 +258,7 @@ export async function deleteSwap(id) {
 // ── Render swaps list ─────────────────────────────────────────
 function renderSwapsList(data) {
   const list = document.getElementById('swapsList');
+  if (!list) return;
   if (!data.length) {
     list.innerHTML = '<div class="empty-sw">Nessun cambio turno registrato.</div>';
     return;

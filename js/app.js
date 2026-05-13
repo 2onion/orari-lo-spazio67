@@ -4,7 +4,7 @@
 import { setCurrentWeek } from './model.js';
 import { renderTable, toggleOggi } from './schedule.js';
 import { doSearch } from './search.js';
-import { initSwaps, onFromChange, onWeekChange, onToChange, confirmSwap, resetSwapForm, deleteSwap } from './swaps.js';
+import { initSwaps, fetchAndApplySwaps, onFromChange, onWeekChange, onToChange, confirmSwap, resetSwapForm, deleteSwap } from './swaps.js';
 import { loadJuve, bump, undo } from './juve.js';
 import { loadShifts, closeEditor, editorTypeChange, saveEditor } from './shifts.js';
 import { initTrivia } from './trivia.js';
@@ -74,7 +74,8 @@ document.getElementById('wsw1').innerHTML = `📅 Sett. 1 &nbsp;${W1_LABEL}`;
 document.getElementById('wsw2').innerHTML = `📅 Sett. 2 &nbsp;${W2_LABEL}`;
 
 (async () => {
-  await loadShifts();
+  await loadShifts();             // load base shifts from Supabase
+  await fetchAndApplySwaps();     // apply any registered swaps on top — always on startup
   renderTable();
-  initTrivia();   // ← NEW: starts the random quiz timer after shifts load
+  initTrivia();
 })();
